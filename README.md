@@ -7,8 +7,8 @@ This chart is based upon the work done by [@jfelten](https://github.com/jfelten/
 ## TLDR
 
 ```sh
-helm repo add k8sland https://charts.k8s.land
-helm install gitea k8sland/gitea
+helm repo add k8s-land https://charts.k8s.land
+helm install gitea k8s-land/gitea
 ```
 
 ## Introduction
@@ -33,8 +33,8 @@ By default, we use ingress to expose the service.
 To install WITHOUT persistent storage / development:
 
 ```bash
-helm repo add k8sland https://charts.k8s.land
-helm install gitea k8sland/gitea
+helm repo add k8s-land https://charts.k8s.land
+helm install gitea k8s-land/gitea
 ```
 
 For production / installing with persistent data:

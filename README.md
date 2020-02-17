@@ -40,9 +40,9 @@ helm install gitea k8s-land/gitea
 For production / installing with persistent data:
 
 ```sh
-helm show values cdrage/gitea > values.yaml
+helm show values k8s-land/gitea > values.yaml
 vim values.yaml # Edit to enable persistent storage
-helm install gitea cdrage/gitea -f values.yaml
+helm install gitea k8s-land/gitea -f values.yaml
 ```
 
 ### Database Configuration

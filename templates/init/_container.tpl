@@ -9,8 +9,13 @@ Create helm partial for gitea server
   - name: MARIADB_PASSWORD
     valueFrom:
       secretKeyRef:
+      {{- if .Values.mariadb.enabled }}
         name: {{ template "mariadb.fullname" . }}
         key: mariadb-password
+      {{- else }}
+        name: {{ printf "%s-%s" .Release.Name "externaldb" }}
+        key: db-password
+      {{- end }}
   - name: SCRIPT
     value: &script |-
       mkdir -p /datatmp/gitea/conf

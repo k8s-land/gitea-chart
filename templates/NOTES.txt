@@ -33,9 +33,9 @@
 {{- else if contains "LoadBalancer" .Values.service.ssh.serviceType }}
 
   NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-        Watch the status with: 'kubectl get svc -w {{ template "fullname" . }}ssh'
+        Watch the status with: 'kubectl get svc -w {{ template "fullname" . }}-ssh'
 
-  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "fullname" . }}ssh -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "fullname" . }}-ssh -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
   echo http://$SERVICE_IP/
 {{- else if contains "ClusterIP"  .Values.service.ssh.serviceType }}
 

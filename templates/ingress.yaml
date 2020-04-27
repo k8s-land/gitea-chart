@@ -33,7 +33,7 @@ spec:
       - path: {{ default "/" .path }}
         backend:
           serviceName: "{{ template "fullname" $ }}"-http
-          servicePort: {{ .Values.service.http.port }}
+          servicePort: {{ $.Values.service.http.port }}
   {{- end }}
   {{- if .Values.ingress.tls }}
   tls:

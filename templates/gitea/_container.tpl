@@ -5,17 +5,6 @@ Create helm partial for gitea server
 - name: gitea
   image: {{ .Values.images.gitea }}
   imagePullPolicy: {{ .Values.images.pullPolicy }}
-  env:
-  - name: DATABASE_PASSWORD
-    valueFrom:
-      secretKeyRef:
-      {{- if .Values.mariadb.enabled }}
-        name: {{ template "mariadb.fullname" . }}
-        key: mariadb-password
-      {{- else }}
-        name: {{ printf "%s-%s" .Release.Name "externaldb" }}
-        key: db-password
-      {{- end }}
   ports:
   - name: ssh
     containerPort: 22

@@ -248,7 +248,7 @@ data:
     ; Where your lfs files reside, default is data/lfs.
     LFS_CONTENT_PATH = data/lfs
     ; LFS authentication secret, change this yourself
-    LFS_JWT_SECRET =
+    LFS_JWT_SECRET = HELM_LFS_JWT_SECRET
     ; LFS authentication validity period (in time.Duration), pushes taking longer than this may fail.
     LFS_HTTP_AUTH_EXPIRY = 20m
 
@@ -267,20 +267,15 @@ data:
     HOST = {{ .Values.externalDB.dbHost }}:{{ .Values.externalDB.dbPort }}
     NAME = {{ .Values.externalDB.dbDatabase }}
     USER = {{ .Values.externalDB.dbUser }}
-    PASSWD = {{ .Values.externalDB.dbPassword }}
     {{ else if .Values.mariadb.enabled }}
     ; Either "mysql", "postgres", "mssql" or "sqlite3", it's your choice
     DB_TYPE = mysql
     HOST = {{ template "mariadb.fullname" . }}:3306
     NAME = {{ .Values.mariadb.db.name }}
     USER = {{ .Values.mariadb.db.user }}
+    {{ end }}
     ; Use PASSWD = `your password` for quoting if you use special characters in the password.
-    {{ if .Values.mariadb.password }}
-    PASSWD = {{ .Values.mariadb.db.password }}
-    {{ else }}
-    PASSWD = MARIADB_PASSWORD
-    {{ end }}
-    {{ end }}
+    PASSWD = HELM_DB_PASSWORD
     ; For "postgres" only, either "disable", "require" or "verify-full"
     SSL_MODE = disable
     ; For "sqlite3" and "tidb", use an absolute path when you start gitea as service
@@ -308,11 +303,8 @@ data:
     ; Whether the installer is disabled
     INSTALL_LOCK = {{ .Values.config.disableInstaller }}
     ; !!CHANGE THIS TO KEEP YOUR USER DATA SAFE!!
-    {{ if .Values.config.secretKey }}
-    SECRET_KEY = {{ .Values.config.secretKey }}
-    {{ else }}
-    SECRET_KEY = {{ randAlphaNum 64 | quote }}
-    {{ end }}
+    SECRET_KEY = HELM_SECRET_KEY
+    INTERNAL_TOKEN_URI = file:/data/gitea/conf/internal-token
 
 
     ; How long to remember that an user is logged in before requiring relogin (in days)
@@ -661,6 +653,20 @@ data:
     ENABLE_SWAGGER = true
     ; Max number of items in a page
     MAX_RESPONSE_ITEMS = 50
+
+    [oauth2]
+    ; Enables OAuth2 provider
+    ENABLE = true
+    ; Lifetime of an OAuth2 access token in seconds
+    ACCESS_TOKEN_EXPIRATION_TIME=3600
+    ; Lifetime of an OAuth2 access token in hours
+    REFRESH_TOKEN_EXPIRATION_TIME=730
+    ; Check if refresh token got already used
+    INVALIDATE_REFRESH_TOKENS=false
+    ; OAuth2 authentication secret for access and refresh tokens, change this to a unique string.
+    JWT_SECRET=HELM_JWT_SECRET
+    ; Maximum length of oauth2 token/cookie stored on server
+    MAX_TOKEN_LENGTH=32767
 
     [i18n]
     LANGS = en-US,zh-CN,zh-HK,zh-TW,de-DE,fr-FR,nl-NL,lv-LV,ru-RU,uk-UA,ja-JP,es-ES,pt-BR,pl-PL,bg-BG,it-IT,fi-FI,tr-TR,cs-CZ,sr-SP,sv-SE,ko-KR

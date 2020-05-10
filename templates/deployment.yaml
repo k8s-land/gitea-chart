@@ -21,6 +21,14 @@ spec:
       containers:
       {{ include "gitea" . | indent 6 }}
       {{ include "memcached" . | indent 6 }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       initContainers:
       {{ include "init" . | indent 6 }}
       volumes:

@@ -43,7 +43,7 @@ Return the appropriate apiVersion for ingress.
 {{- if .Values.config.secretName -}}
     {{ .Values.config.secretName }}
 {{- else -}}
-    {{ template "fullname" . }}
+    {{ template "gitea.fullname" . }}
 {{- end -}}
 {{- end -}}
 

@@ -58,7 +58,7 @@ Return the appropriate apiVersion for ingress.
     {{- if .Values.externalDB.secretName -}}
         {{ .Values.externalDB.secretName }}
     {{- else -}}
-        {{ printf "%s-externalDB" (include "fullname" .) }}
+        {{ printf "%s-externalDB" (include "gitea.fullname" .) }}
     {{- end -}}
 {{- end -}}
 {{- end -}}

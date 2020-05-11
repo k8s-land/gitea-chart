@@ -3,8 +3,8 @@ Create helm partial for gitea server
 */}}
 {{- define "gitea" }}
 - name: gitea
-  image: {{ .Values.images.gitea }}
-  imagePullPolicy: {{ .Values.images.pullPolicy }}
+  image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+  imagePullPolicy: {{ .Values.image.pullPolicy }}
   env:
   - name: DATABASE_PASSWORD
     valueFrom:

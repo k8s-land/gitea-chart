@@ -5,20 +5,20 @@
 tags:
   mariadb: true
 
-images:
-  registry: docker.io
-  gitea: "gitea/gitea:1.11.4"
-  memcached: "memcached:1.5.19-alpine"
+image:
+  repository: gitea/gitea
+  tag: 1.11.4
   pullPolicy: IfNotPresent
-  ## Optionally specify an array of imagePullSecrets.
-  ## Secrets must be manually created in the namespace.
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  ##
-  # pullSecrets:
-  #   - myRegistryKeySecretName
+  pullSecrets: []
 
-## Cache settings for memcache
 memcached:
+  ## image settings for memcache
+  image:
+    repository: memcached
+    tag: 1.5.19-alpine
+    pullPolicy: IfNotPresent
+
+  ## Cache settings for memcache
   maxItemMemory: 64
   verbosity: v
   extendedOptions: modern

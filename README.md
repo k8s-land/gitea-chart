@@ -130,10 +130,13 @@ The following table lists the configurable parameters of this chart and their de
 
 | Parameter                             | Description                                                                                                                  | Default                   |
 |---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------|
-| `images.gitea`                        | `gitea` image                                                                                                                | `gitea/gitea:1.9.3`       |
-| `images.memcached`                    | `memcached` image                                                                                                            | `memcached:1.5.19-alpine` |
-| `images.pullPolicy`                   | Image pull policy                                                                                                            | `IfNotPresent`            |
+| `image.repository`                    | `gitea` image                                                                                                                | `gitea/gitea`             |
+| `image.tag`                           | `gitea` image tag                                                                                                            | `1.11.4`                  |
+| `images.pullPolicy`                   | `gitea` image pull policy                                                                                                    | `IfNotPresent`            |
 | `images.pullSecrets`                  | Specify an array of pull secrets                                                                                             | `[]`                      |
+| `memcached.image.repository`          | `memcached` image                                                                                                            | `memcached`               |
+| `memcached.image.tag`                 | `memcached` image tag                                                                                                        | `1.5.19-alpine`           |
+| `memcached.images.pullPolicy`         | `memcached` image pull policy                                                                                                | `IfNotPresent`            |
 | `memcached.maxItemMemory`             | Max item memory                                                                                                              | `64`                      |
 | `memcached.verbosity`                 | Verbosity                                                                                                                    | `v`                       |
 | `memcached.extendedOptions`           | Extended options for memcached                                                                                               | `modern`                  |

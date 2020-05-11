@@ -1,10 +1,10 @@
-
+{{- $fullName := include "gitea.fullname" . }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "gitea.fullname" . }}
+  name: {{ $fullName }}
   labels:
-    app: {{ template "gitea.fullname" . }}
+    app: {{ $fullName }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -12,11 +12,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ template "gitea.fullname" . }}
+      app: {{ $fullName }}
   template: 
     metadata:
       labels:
-        app: {{ template "gitea.fullname" . }}
+        app: {{ $fullName }}
     spec:
       containers:
       {{ include "gitea" . | indent 6 }}
@@ -35,14 +35,14 @@ spec:
         {{- toYaml .Values.persistence.directGiteaVolumeMount | nindent 8 }}
         {{- else }}
         persistentVolumeClaim:
-         claimName: {{ .Values.persistence.existingGiteaClaim | default (include "fullname" .) }}
+         claimName: {{ .Values.persistence.existingGiteaClaim | default $fullName }}
         {{- end }}
       {{- else }}
         emptyDir: {}
       {{- end }}
       - name: gitea-config
         configMap:
-          name: {{ template "gitea.fullname" . }}
+          name: {{ $fullName }}
 
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:

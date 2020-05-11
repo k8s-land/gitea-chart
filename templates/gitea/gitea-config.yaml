@@ -275,7 +275,7 @@ data:
     NAME = {{ .Values.mariadb.db.name }}
     USER = {{ .Values.mariadb.db.user }}
     ; Use PASSWD = `your password` for quoting if you use special characters in the password.
-    {{ if .Values.mariadb.password }}
+    {{ if .Values.mariadb.db.password }}
     PASSWD = {{ .Values.mariadb.db.password }}
     {{ else }}
     PASSWD = MARIADB_PASSWORD

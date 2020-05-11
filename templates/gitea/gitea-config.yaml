@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "fullname" . }}
+  name: {{ template "gitea.fullname" . }}
   labels:
-    app: {{ template "fullname" . }}
+    app: {{ template "gitea.fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -137,7 +137,7 @@ data:
     {{- else if .Values.ingress.enabled }}
     DOMAIN = {{ .Values.ingress.hostname }}
     {{- else }}
-    DOMAIN = {{ template "fullname" . }}-http.{{ .Release.Namespace }}.svc.cluster.local
+    DOMAIN = {{ template "gitea.fullname" . }}-http.{{ .Release.Namespace }}.svc.cluster.local
     {{- end -}}
     {{ if .Values.ingress.tls }}
     {{- $proto := set . "proto" "https" }}
@@ -179,7 +179,7 @@ data:
     {{- if .Values.service.ssh.externalHost  }}
     SSH_DOMAIN = {{ .Values.service.ssh.externalHost  }}
     {{- else }}
-    SSH_DOMAIN = {{ template "fullname" . }}-ssh.{{ .Release.Namespace }}.svc.cluster.local
+    SSH_DOMAIN = {{ template "gitea.fullname" . }}-ssh.{{ .Release.Namespace }}.svc.cluster.local
     {{- end }}
     ; THe network interface the builtin SSH server should listen on
     SSH_LISTEN_HOST =

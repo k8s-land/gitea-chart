@@ -1,10 +1,12 @@
 {{- if .Values.ingress.enabled }}
+{{- $fullName := include "gitea.fullname" . }}
+{{- $httpPort := .Values.service.http.port -}}
 apiVersion: {{ template "gitea.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
-  name: {{ template "fullname" . }}
+  name: {{ $fullName }}
   labels:
-    app: "{{ template "fullname" . }}"
+    app: "{{ $fullName }}"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: {{ .Release.Name | quote }}
     heritage: {{ .Release.Service | quote }}
@@ -23,20 +25,19 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: {{ template "fullname" . }}-http
-          servicePort: {{ .Values.service.http.port }}
+          serviceName: {{ $fullName }}-http
+          servicePort: {{ $httpPort }}
   {{- end }}
   {{- range .Values.ingress.hosts }}
   - host: {{ .name }}
     http:
       paths:
-      - path: {{ default "/" .path }}
+      - path: {{ .path | default "/" }}
         backend:
-          serviceName: {{ template "fullname" . }}-http"
-          servicePort: {{ .Values.service.http.port }}
+          serviceName: {{ $fullName }}-http
+          servicePort: {{ $httpPort }}
   {{- end }}
   {{- if .Values.ingress.tls }}
-  tls:
-  {{ toYaml .Values.ingress.tls | indent 4 }}
-  {{- end }}
-{{- end }}
+  tls: {{ toYaml .Values.ingress.tls | nindent 4 }}
+  {{- end -}}
+{{- end -}}

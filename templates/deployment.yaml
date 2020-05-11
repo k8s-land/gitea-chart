@@ -2,9 +2,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}
+  name: {{ template "gitea.fullname" . }}
   labels:
-    app: {{ template "fullname" . }}
+    app: {{ template "gitea.fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -12,30 +12,27 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ template "fullname" . }}
+      app: {{ template "gitea.fullname" . }}
   template: 
     metadata:
       labels:
-        app: {{ template "fullname" . }}
+        app: {{ template "gitea.fullname" . }}
     spec:
       containers:
       {{ include "gitea" . | indent 6 }}
       {{ include "memcached" . | indent 6 }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
+      {{- if .Values.affinity }}
+      affinity: {{- toYaml .Values.affinity | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
+      {{- if .Values.tolerations }}
+      tolerations: {{- toYaml .Values.tolerations | nindent 8 }}
       {{- end }}
-      initContainers:
-      {{ include "init" . | indent 6 }}
+      initContainers: {{ include "init" . | nindent 6 }}
       volumes:
       - name: gitea-data
       {{- if .Values.persistence.enabled }}
         {{- if .Values.persistence.directGiteaVolumeMount }}
-{{ tpl .Values.persistence.directGiteaVolumeMount . | indent 8 }}
+        {{- toYaml .Values.persistence.directGiteaVolumeMount | nindent 8 }}
         {{- else }}
         persistentVolumeClaim:
          claimName: {{ .Values.persistence.existingGiteaClaim | default (include "fullname" .) }}
@@ -45,7 +42,7 @@ spec:
       {{- end }}
       - name: gitea-config
         configMap:
-          name: {{ template "fullname" . }}
+          name: {{ template "gitea.fullname" . }}
 
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:

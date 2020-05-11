@@ -2,9 +2,9 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "fullname" . }}
+  name: {{ template "gitea.fullname" . }}
   labels:
-    app: {{ template "fullname" . }}
+    app: {{ template "gitea.fullname" . }}
     chart: gitea
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}

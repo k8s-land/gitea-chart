@@ -14,7 +14,8 @@ Create helm partial for gitea server
         cp /etc/gitea-secret/internal-token /datatmp/gitea/conf/internal-token
       fi
       if [ ! -f /datatmp/gitea/conf/internal-token ]; then
-        gitea generate secret INTERNAL_TOKEN >/datatmp/gitea/conf/internal-token
+        # File must exist, Gitea will generate the content if empty.
+        touch /datatmp/gitea/conf/internal-token
       fi
 
       {{- if not .Values.config.immutableConfig }}

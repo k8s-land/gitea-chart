@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,6 +12,10 @@ spec:
   selector:
     matchLabels:
       app: {{ template "fullname" . }}
+{{- with .Values.deploymentStrategy }}
+  strategy:
+{{ toYaml . | trim | indent 4 }}
+{{- end }}
   template: 
     metadata:
       labels:

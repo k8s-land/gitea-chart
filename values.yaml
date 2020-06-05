@@ -114,6 +114,18 @@ resources:
       memory: 64Mi
       cpu: 50m
 
+## Update strategy - for deployments with RWO PVs attached and with a
+## single replicas = 1, an update can get stuck, as the previous pod
+## remains attached to the PVC. Changing the strategy to "Recreate"
+## will terminate the single previous pod, so that the new, incoming
+## pod can attach to the PV
+# deploymentStrategy:
+#   rollingUpdate:
+#     type: "Recreate"
+#     type: "RollingUpdate"
+#     maxSurge: 1
+#     maxUnavailable: 1
+
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ## ref:

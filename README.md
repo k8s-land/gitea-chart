@@ -163,7 +163,8 @@ The following table lists the configurable parameters of this chart and their de
 | `persistence.existingGiteaClaim`      | Already existing PVC that should be used for gitea data.                                                                     | `nil`                     |
 | `persistence.giteaSize`               | Size of gitea pvc to create                                                                                                  | `10Gi`                    |
 | `persistence.annotations`             | Annotations to set on created PVCs                                                                                           | `nil`                     |
-| `persistence.storageClass`            | NStorageClass to use for dynamic provision if not 'default'                                                                  | `nil`                     |
+| `persistence.storageClass`            | StorageClass to use for dynamic provision if not 'default'                                                                   | `nil`                     |
+| `podAnnotations`                      | Annotations to set on the pod                                                                  | `{}`                        |
 | `mariadb.enabled`                     | Enable or diable mariadb                                                                                                     | `true`                    |
 | `mariadb.replication.enabled`         | Enable or diable replication                                                                                                 | `false`                   |
 | `mariadb.db.name`                     | Default name                                                                                                                 | `gitea`                   |

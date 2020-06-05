@@ -213,6 +213,6 @@ nodeSelector: {}
 tolerations: []
 affinity: {}
 
-## Annotations for the deployment and nodes.
+## Annotations for the deployment and pods.
 deploymentAnnotations: {}
 podAnnotations: {}

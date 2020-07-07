@@ -128,9 +128,10 @@ Refer to [values.yaml](values.yaml) for the full run-down on defaults.
 
 The following table lists the configurable parameters of this chart and their default values.
 
+### Global parameters
+
 | Parameter                             | Description                                                                                                                  | Default                   |
 |---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------|
-### Global parameters
 | `images.gitea`                        | `gitea` image                                                                                                                | `gitea/gitea:1.9.3`       |
 | `images.memcached`                    | `memcached` image                                                                                                            | `memcached:1.5.19-alpine` |
 | `images.pullPolicy`                   | Image pull policy                                                                                                            | `IfNotPresent`            |
@@ -138,14 +139,22 @@ The following table lists the configurable parameters of this chart and their de
 | `memcached.maxItemMemory`             | Max item memory                                                                                                              | `64`                      |
 | `memcached.verbosity`                 | Verbosity                                                                                                                    | `v`                       |
 | `memcached.extendedOptions`           | Extended options for memcached                                                                                               | `modern`                  |
+
 ### Ingress parameters
+
+| Parameter                             | Description                                                                                                                  | Default                   |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------|
 | `ingress.enabled`                     | Switch to create ingress for this chart deployment                                                                           | `true`                    |
 | `ingress.hostname `                   | Hostname to be used for the ingress                                                                                          | `gitea.local`             |
 | `ingress.certManager`                 | Asks if we want to use cert-manager or not (let's encrypt, etc.)                                                             | `true`                    |
 | `ingress.annotations`                 | Annotations used by the ingress                                                                                              | `[]`                      |
 | `ingress.hosts `                      | Additional hosts to be used by the ingress                                                                                   | `[]`                      |
 | `ingress.tls `                        | TLS secret keys to be used with Gitea                                                                                        | `[]`                      |
+
 ### Gitea parameters
+
+| Parameter                             | Description                                                                                                                  | Default                   |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------|
 | `service.http.serviceType`            | type of kubernetes services used for http i.e. ClusterIP, NodePort or LoadBalancer                                           | `ClusterIP`               |
 | `service.http.port`                   | http port for web traffic                                                                                                    | `3000`                    |
 | `service.http.NodePort`               | Manual NodePort for web traffic                                                                                              | `nil`                     |
@@ -168,7 +177,11 @@ The following table lists the configurable parameters of this chart and their de
 | `persistence.annotations`             | Annotations to set on created PVCs                                                                                           | `nil`                     |
 | `persistence.storageClass`            | StorageClass to use for dynamic provision if not 'default'                                                                   | `nil`                     |
 | `podAnnotations`                      | Annotations to set on the pod                                                                                                | `{}`                        |
+
 ### Database parameters
+
+| Parameter                             | Description                                                                                                                  | Default                   |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------|
 | `mariadb.enabled`                     | Enable or disable mariadb                                                                                                    | `true`                    |
 | `mariadb.rootUser.password`           | MariaDB admin password: you must hardcode it if you want to support upgrades                                                 | `nil`                     |
 | `mariadb.replication.enabled`         | Enable or disable replication                                                                                                | `false`                   |
@@ -183,7 +196,11 @@ The following table lists the configurable parameters of this chart and their de
 | `externalDB.dbHost`                   | external db host                                                                                                             | ` unset`                  |
 | `externalDB.dbPort`                   | external db port                                                                                                             | ` unset`                  |
 | `externalDB.dbDatabase`               | external db database name                                                                                                    | ` unset`                  |
+
 ### Gitea configuration
+
+| Parameter                             | Description                                                                                                                  | Default                   |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------|
 | `config.disableInstaller`             | Disable the installer                                                                                                        | `false`                   |
 | `config.offlineMode`                  | Sets Gitea's Offline Mode. Values are `true` or `false`.                                                                     | `false`                   |
 | `config.requireSignin`                | Require Gitea user to be signed in to see any pages. Values are `true` or `false`.                                           | `false`                   |

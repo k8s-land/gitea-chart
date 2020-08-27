@@ -118,7 +118,7 @@ To expose the web application this chart will generate an ingress using the ingr
 
 When upgrading, make sure you have the following enabled:
 
-  - Persistency for both Gitea + mariadb (you have to set both the db user password `mariadb.db.password` and root user `mariadb.rootUser.password`)
+  - Persistency for both Gitea + mariadb: you have to set both the db user password `mariadb.db.password` and root user `mariadb.rootUser.password`
   - Using `existingGiteaClaim`
   - Due to using the [bitnami/mariadb](https://github.com/helm/charts/tree/master/stable/mariadb) chart, make sure to HARDCODE your passwords within `values.yaml`.  Or else you'll be unable to update mariadb
 

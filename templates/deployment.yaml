@@ -45,6 +45,15 @@ spec:
       - name: gitea-config
         configMap:
           name: {{ template "fullname" . }}
+      - name: database-secret
+        secret:
+          secretName: {{ template "db-secret-name" . }}
+          items:
+            - key: {{ template "db-secret-key" . }}
+              path: db-password
+      - name: gitea-secret
+        secret:
+          secretName: {{ template "gitea-secret-name" . }}
 
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:

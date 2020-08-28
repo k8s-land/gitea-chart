@@ -29,3 +29,35 @@ Return the appropriate apiVersion for ingress.
 {{- print "networking.k8s.io/v1beta1" -}}    
 {{- end -}}    
 {{- end -}}  
+
+{{- define "gitea-secret-name" -}}
+{{- if .Values.config.secretName -}}
+    {{ .Values.config.secretName }}
+{{- else -}}
+    {{ template "fullname" . }}
+{{- end -}}
+{{- end -}}
+
+{{- define "db-secret-name" -}}
+{{- if .Values.mariadb.enabled -}}
+    {{- if .Values.mariadb.existingSecret -}}
+        {{ .Values.mariadb.existingSecret }}
+    {{- else -}}
+        {{ template "mariadb.fullname" . }}
+    {{- end -}}
+{{- else -}}
+    {{- if .Values.externalDB.secretName -}}
+        {{ .Values.externalDB.secretName }}
+    {{- else -}}
+        {{ printf "%s-externalDB" (include "fullname" .) }}
+    {{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "db-secret-key" -}}
+{{- if .Values.mariadb.enabled -}}
+    {{- print "mariadb-password" -}}
+{{- else -}}
+    {{ .Values.externalDB.passwordKey }}
+{{- end -}}
+{{- end -}}

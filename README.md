@@ -1,3 +1,9 @@
+# NOTE
+
+This project has been donated to Gitea at https://gitea.com/gitea/helm-chart
+
+Please refer to any changes / issues to: https://gitea.com/gitea/helm-chart this chart on GitHub is NO LONGER MAINTAINED.
+
 # Gitea
 
 [Gitea](https://gitea.com/) is a lightweight GitHub clone.  This is for those who wish to self host their own git repos on kubernetes.

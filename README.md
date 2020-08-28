@@ -124,7 +124,7 @@ To expose the web application this chart will generate an ingress using the ingr
 
 When upgrading, make sure you have the following enabled:
 
-  - Persistency for both mariadb + Gitea
+  - Persistency for both Gitea + mariadb: you have to set both the db user password `mariadb.db.password` and root user `mariadb.rootUser.password`
   - Using `existingGiteaClaim`
   - Due to using the [bitnami/mariadb](https://github.com/helm/charts/tree/master/stable/mariadb) chart, make sure to HARDCODE your passwords within `values.yaml`.  Or else you'll be unable to update mariadb
 
@@ -133,6 +133,8 @@ When upgrading, make sure you have the following enabled:
 Refer to [values.yaml](values.yaml) for the full run-down on defaults.
 
 The following table lists the configurable parameters of this chart and their default values.
+
+### Global parameters
 
 | Parameter                             | Description                                                                                                                  | Default                   |
 |---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------|
@@ -143,12 +145,22 @@ The following table lists the configurable parameters of this chart and their de
 | `memcached.maxItemMemory`             | Max item memory                                                                                                              | `64`                      |
 | `memcached.verbosity`                 | Verbosity                                                                                                                    | `v`                       |
 | `memcached.extendedOptions`           | Extended options for memcached                                                                                               | `modern`                  |
+
+### Ingress parameters
+
+| Parameter                             | Description                                                                                                                  | Default                   |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------|
 | `ingress.enabled`                     | Switch to create ingress for this chart deployment                                                                           | `true`                    |
 | `ingress.hostname `                   | Hostname to be used for the ingress                                                                                          | `gitea.local`             |
 | `ingress.certManager`                 | Asks if we want to use cert-manager or not (let's encrypt, etc.)                                                             | `true`                    |
 | `ingress.annotations`                 | Annotations used by the ingress                                                                                              | `[]`                      |
 | `ingress.hosts `                      | Additional hosts to be used by the ingress                                                                                   | `[]`                      |
 | `ingress.tls `                        | TLS secret keys to be used with Gitea                                                                                        | `[]`                      |
+
+### Gitea parameters
+
+| Parameter                             | Description                                                                                                                  | Default                   |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------|
 | `service.http.serviceType`            | type of kubernetes services used for http i.e. ClusterIP, NodePort or LoadBalancer                                           | `ClusterIP`               |
 | `service.http.port`                   | http port for web traffic                                                                                                    | `3000`                    |
 | `service.http.NodePort`               | Manual NodePort for web traffic                                                                                              | `nil`                     |
@@ -165,24 +177,36 @@ The following table lists the configurable parameters of this chart and their de
 | `resources.gitea.limits.cpu`          | gitea container CPU/Memory resource requests/limits                                                                          | `1`                       |
 | `resources.memcached.requests.memory` | memcached container memory request                                                                                           | `64Mi`                    |
 | `resources.memcached.requests.cpu`    | memcached container request cpu                                                                                              | `50m`                     |
-| `persistence.enabled`                 | Create PVCs to store gitea data                                                                               | `false`                   |
+| `persistence.enabled`                 | Create PVCs to store gitea data                                                                                              | `false`                   |
 | `persistence.existingGiteaClaim`      | Already existing PVC that should be used for gitea data.                                                                     | `nil`                     |
 | `persistence.giteaSize`               | Size of gitea pvc to create                                                                                                  | `10Gi`                    |
 | `persistence.annotations`             | Annotations to set on created PVCs                                                                                           | `nil`                     |
 | `persistence.storageClass`            | StorageClass to use for dynamic provision if not 'default'                                                                   | `nil`                     |
-| `podAnnotations`                      | Annotations to set on the pod                                                                  | `{}`                        |
-| `mariadb.enabled`                     | Enable or diable mariadb                                                                                                     | `true`                    |
-| `mariadb.replication.enabled`         | Enable or diable replication                                                                                                 | `false`                   |
-| `mariadb.db.name`                     | Default name                                                                                                                 | `gitea`                   |
-| `mariadb.db.user`                     | Default user                                                                                                                 | `gitea`                   |
-| `mariadb.persistence.enabled`         | Enable or diable persistence                                                                                                 | `true`                    |
-| `mariadb.persistence.accessMode`      | What access mode to use                                                                                                      | `ReadWriteOnce`           |
-| `mariadb.persistence.size`            | What size of database to use                                                                                                 | `8Gi`                     |
+| `podAnnotations`                      | Annotations to set on the pod                                                                                                | `{}`                        |
+
+### Database parameters
+
+| Parameter                             | Description                                                                                                                  | Default                   |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------|
+| `mariadb.enabled`                     | Enable or disable mariadb                                                                                                    | `true`                    |
+| `mariadb.rootUser.password`           | MariaDB admin password: you must hardcode it if you want to support upgrades                                                 | `nil`                     |
+| `mariadb.replication.enabled`         | Enable or disable replication                                                                                                | `false`                   |
+| `mariadb.db.name`                     | Database name to create                                                                                                      | `gitea`                   |
+| `mariadb.db.user`                     | Database user to create                                                                                                      | `gitea`                   |
+| `mariadb.db.password`                 | Password for the database: you must hardcode it if you want to support upgrades                                              | _random 10 character long alphanumeric |
+| `mariadb.master.persistence.enabled`         | Enable or disable persistence                                                                                         | `true`                    |
+| `mariadb.master.persistence.accessMode`      | What access mode to use                                                                                               | `ReadWriteOnce`           |
+| `mariadb.master.persistence.size`            | What size of database to use                                                                                          | `8Gi`                     |
 | `externalDB.dbUser`                   | external db user                                                                                                             | ` unset`                  |
 | `externalDB.dbPassword`               | external db password                                                                                                         | ` unset`                  |
 | `externalDB.dbHost`                   | external db host                                                                                                             | ` unset`                  |
 | `externalDB.dbPort`                   | external db port                                                                                                             | ` unset`                  |
 | `externalDB.dbDatabase`               | external db database name                                                                                                    | ` unset`                  |
+
+### Gitea configuration
+
+| Parameter                             | Description                                                                                                                  | Default                   |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------------|
 | `config.disableInstaller`             | Disable the installer                                                                                                        | `false`                   |
 | `config.offlineMode`                  | Sets Gitea's Offline Mode. Values are `true` or `false`.                                                                     | `false`                   |
 | `config.requireSignin`                | Require Gitea user to be signed in to see any pages. Values are `true` or `false`.                                           | `false`                   |
